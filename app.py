@@ -55,8 +55,10 @@ def home():
                 pass
         
         for fut in future_summoners:
-            summoners.append(fut.result())
-        
+            try:
+                summoners.append(fut.result())
+            except Exception as e:
+                pass
     summoners.sort(key=lambda x: x.total_lp, reverse=True)
 
     for s in summoners:
