@@ -8,4 +8,5 @@ FRIEND_LIST = {
     'The Tarnìshed': 'NA1',
     'KhaZix DÌff' :'NA1',
     'hadeeb alsheeb': 'dil',
+    'Triple Nut': '00000'
 }
