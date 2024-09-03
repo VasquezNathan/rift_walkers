@@ -20,6 +20,7 @@ origins = [
     'http://localhost:5000',
     'http://localhost:5173',
     'http://localhost:5174',
+    'https://natevasquez.com'
 ]
 CORS(app, origins=origins)
 
@@ -65,7 +66,7 @@ def home():
                     'wins': s.wins,
                     'losses': s.losses})
     
-    summoner_cache.set_expires(datetime.now() + timedelta(minutes=3))
+    summoner_cache.set_expires(datetime.now() + timedelta(seconds=30))
 
     return ret
 

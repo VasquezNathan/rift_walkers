@@ -6,4 +6,5 @@ FRIEND_LIST = {
     'M1STERMAG1C': 'NA1',
     'Chogaths Nuts': 'dznut',
     'The Tarnìshed': 'NA1',
+    'KhaZix DÌff' :'NA1',
 }
