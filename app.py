@@ -90,6 +90,7 @@ def query_summoner_info(username: str, tag: str) -> Summoner:
     r = requests.get(url=url, headers=headers)
     # print(r.json())
     print(r.status_code)
+    print(r.json())
     summoner.name = r.json()['gameName']
     
     # Get summoner ID from PUUID
