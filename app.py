@@ -49,8 +49,10 @@ def home():
         future_summoners: list[futures.Future] = []
 
         for username, tag in conf.FRIEND_LIST.items():
-            future_summoners.append(executor.submit(query_summoner_info, username, tag))
-        
+            try:
+                future_summoners.append(executor.submit(query_summoner_info, username, tag))
+            except Exception as e:
+                pass
         
         for fut in future_summoners:
             summoners.append(fut.result())

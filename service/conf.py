@@ -7,4 +7,5 @@ FRIEND_LIST = {
     'Chogaths Nuts': 'dznut',
     'The Tarnìshed': 'NA1',
     'KhaZix DÌff' :'NA1',
+    'hadeeb alsheeb':' dil',
 }
