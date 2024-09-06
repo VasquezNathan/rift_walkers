@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 
 TIERS = {'IRON': 0,
          'BRONZE': 1,
@@ -28,11 +28,14 @@ class Summoner:
         self.total_lp: int = 0
         self.wins: int = 0
         self.losses: int = 0
+        self.previous_day_wins: int = 0
+        self.previous_day_losses: int = 0
 
 class SummonerCache:
     def __init__(self):
         self._expires: datetime | None = None
         self.summoners: dict[str, Summoner] = {}
+        self._day: int | None = None
 
     @property
     def expired(self) -> bool:
@@ -43,3 +46,13 @@ class SummonerCache:
     
     def set_expires(self, new_expires: datetime):
         self._expires = new_expires
+
+    @property
+    def new_day(self) -> bool:
+        if self._day is None:
+            return True
+        
+        return self._day != date.today().day
+    
+    def set_day(self, new_day: int):
+        self._day = new_day

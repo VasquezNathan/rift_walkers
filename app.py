@@ -68,9 +68,9 @@ def home():
                     'leaguePoints': s.league_points,
                     'iconId': s.icon_id,
                     'wins': s.wins,
-                    'losses': s.losses})
-    
-    summoner_cache.set_expires(datetime.now() + timedelta(seconds=30))
+                    'losses': s.losses,
+                    'pDayWins': s.previous_day_wins,
+                    'pDayLosses': s.previous_day_losses})
 
     return ret
 
@@ -113,8 +113,18 @@ def query_summoner_info(username: str, tag: str) -> Summoner:
             summoner.league_points = league['leaguePoints']
             summoner.wins = league['wins']
             summoner.losses = league['losses']
-     
+
+            if summoner_cache.new_day:
+                summoner.previous_day_wins = summoner.wins
+                summoner.previous_day_losses = summoner.losses
+
+            
+
     summoner.total_lp = (TIERS[summoner.tier] * 400) + (RANKS[summoner.rank] * 100) + int(summoner.league_points)
 
     summoner_cache.summoners[summoner_name_tag] = summoner
+    summoner_cache.set_expires(datetime.now() + timedelta(seconds=30))
+    
+
+
     return summoner
