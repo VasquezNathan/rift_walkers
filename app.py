@@ -44,6 +44,8 @@ def home():
     ret = []
 
     summoners: list[Summoner] = []
+    if summoner_cache.new_day:
+        summoner_cache.set_day(date.today().day)
 
     with futures.ThreadPoolExecutor(max_workers=10) as executor:
         future_summoners: list[futures.Future] = []
@@ -114,10 +116,9 @@ def query_summoner_info(username: str, tag: str) -> Summoner:
             summoner.wins = league['wins']
             summoner.losses = league['losses']
 
-            if summoner_cache.new_day:
-                summoner.previous_day_wins = summoner.wins
-                summoner.previous_day_losses = summoner.losses
-                summoner_cache.set_day(date.today().day)
+    if summoner_cache.new_day:
+        summoner.previous_day_wins = summoner.wins
+        summoner.previous_day_losses = summoner.losses
 
             
 
@@ -125,7 +126,7 @@ def query_summoner_info(username: str, tag: str) -> Summoner:
 
     summoner_cache.summoners[summoner_name_tag] = summoner
     summoner_cache.set_expires(datetime.now() + timedelta(seconds=30))
-    
+
 
 
     return summoner
