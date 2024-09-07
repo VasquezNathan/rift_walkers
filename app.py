@@ -44,8 +44,6 @@ def home():
     ret = []
 
     summoners: list[Summoner] = []
-    if summoner_cache.new_day:
-        summoner_cache.set_day(date.today().day)
 
     with futures.ThreadPoolExecutor(max_workers=10) as executor:
         future_summoners: list[futures.Future] = []
@@ -73,6 +71,8 @@ def home():
                     'losses': s.losses,
                     'pDayWins': s.previous_day_wins,
                     'pDayLosses': s.previous_day_losses})
+    if summoner_cache.new_day:
+        summoner_cache.set_day(date.today().day)
 
     return ret
 
