@@ -2,7 +2,7 @@ import os
 import requests
 from urllib.parse import quote_plus
 from concurrent import futures
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 from flask import Flask, send_from_directory
 from flask_cors import CORS
@@ -117,6 +117,7 @@ def query_summoner_info(username: str, tag: str) -> Summoner:
             if summoner_cache.new_day:
                 summoner.previous_day_wins = summoner.wins
                 summoner.previous_day_losses = summoner.losses
+                summoner_cache.set_day(date.today().day)
 
             
 
