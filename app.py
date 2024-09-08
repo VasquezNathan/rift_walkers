@@ -2,7 +2,10 @@ import os
 import requests
 from urllib.parse import quote_plus
 from concurrent import futures
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta
+import json
+import fcntl
+import time
 
 from flask import Flask, send_from_directory
 from flask_cors import CORS
@@ -41,38 +44,19 @@ def profile_icon(id):
 
 @app.route('/')
 def home():
-    ret = []
+    ret = 404
 
-    summoners: list[Summoner] = []
+    with open('summoners.json', 'r') as f:
+        retries, max_retries = 0, 3
 
-    with futures.ThreadPoolExecutor(max_workers=10) as executor:
-        future_summoners: list[futures.Future] = []
-
-        for username, tag in conf.FRIEND_LIST.items():
+        while retries < max_retries:
             try:
-                future_summoners.append(executor.submit(query_summoner_info, username, tag))
-            except Exception as e:
-                pass
-        
-        for fut in future_summoners:
-            try:
-                summoners.append(fut.result())
-            except Exception as e:
-                pass
-    summoners.sort(key=lambda x: x.total_lp, reverse=True)
-
-    for s in summoners:
-        ret.append({'name': s.name,
-                    'rank': s.rank,
-                    'tier': s.tier,
-                    'leaguePoints': s.league_points,
-                    'iconId': s.icon_id,
-                    'wins': s.wins,
-                    'losses': s.losses,
-                    'pDayWins': s.previous_day_wins,
-                    'pDayLosses': s.previous_day_losses})
-    if summoner_cache.new_day:
-        summoner_cache.set_day(date.today().day)
+                fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                ret = json.loads(f.read())
+                retries = max_retries
+            except IOError:
+                retries += 1
+                time.sleep(0.5)
 
     return ret
 
