@@ -15,7 +15,7 @@ from service.summoner import Summoner, RANKS, TIERS
 load_dotenv()
 API_KEY = os.getenv('RIOT_API_KEY')
 NEW_DAY = False
-with open('day.dat', 'r') as f:
+with open('/home/natebuntu/workspace/rift_walkers/day.dat', 'r') as f:
     day = int(f.read())
     NEW_DAY = day != date.today().day
 
@@ -100,7 +100,7 @@ if __name__ == '__main__':
                     'pDayWins': s.previous_day_wins,
                     'pDayLosses': s.previous_day_losses})
         
-    with open('summoners.json', 'w') as f:
+    with open('/home/natebuntu/workspace/rift_walkers/summoners.json', 'w') as f:
         retries, max_retries = 0, 3
         
         while retries < max_retries:
@@ -112,5 +112,5 @@ if __name__ == '__main__':
                 retries += 1
                 time.sleep(0.5)
     if NEW_DAY:           
-        with open('day.dat', 'w') as f:
+        with open('/home/natebuntu/workspace/rift_walkers/day.dat', 'w') as f:
             f.write(f'{date.today().day}')
