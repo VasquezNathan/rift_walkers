@@ -19,17 +19,18 @@ RANKS = {
 }
 
 class Summoner:
-    def __init__(self):
-        self.rank: str = ''
-        self.tier: str = ''
-        self.league_points: str = ''
-        self.icon_id: str = ''
-        self.name: str = ''
-        self.total_lp: int = 0
-        self.wins: int = 0
-        self.losses: int = 0
-        self.previous_day_wins: int = 0
-        self.previous_day_losses: int = 0
+    def __init__(self, **kwargs):
+        self.rank: str = kwargs.get('rank', '')
+        self.tier: str = kwargs.get('tier', '')
+        self.league_points: str = kwargs.get('leaguePoints', '')
+        self.icon_id: str = kwargs.get('iconId', '')
+        self.name: str = kwargs.get('name', '')
+        self.total_lp: int = kwargs.get('leaguePoints', 0)
+        self.wins: int = kwargs.get('wins', 0)
+        self.losses: int = kwargs.get('losses', 0)
+        self.previous_day_wins: int = kwargs.get('pDayWins', 0)
+        self.previous_day_losses: int = kwargs.get('pDayLosses', 0)
+    
 
 class SummonerCache:
     def __init__(self):
