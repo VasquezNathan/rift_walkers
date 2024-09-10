@@ -92,7 +92,7 @@ if __name__ == '__main__':
             summoner.previous_day_losses = summoner.losses
             summoner.previous_day_wins = summoner.wins
         with open(f'{os.path.dirname(os.path.abspath(__file__))}/day.dat', 'w') as file:
-            file.write(rift_walkers.today)
+            file.write(f'{rift_walkers.today}')
 
     # write to disk
     ret: list[Summoner] = []
@@ -106,7 +106,7 @@ if __name__ == '__main__':
                     'losses': s.losses,
                     'pDayWins': s.previous_day_wins,
                     'pDayLosses': s.previous_day_losses})
-    ret.sort(key=lambda s: s.total_lp, reverse=True)
+    ret.sort(key=lambda s: s['leaguePoints'], reverse=True)
     with open(f'{os.path.dirname(os.path.abspath(__file__))}/summoners.json', 'w') as file:
         retries, max_retries = 0, 3
         
