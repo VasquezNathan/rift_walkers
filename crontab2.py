@@ -95,8 +95,10 @@ if __name__ == '__main__':
             file.write(f'{rift_walkers.today}')
 
     # write to disk
+    temp_summs: list[Summoner] = [s for _, s in rift_walkers.summoners.items()]
+    temp_summs.sort(key=lambda s: s.total_lp, reverse=True)
     ret: list[Summoner] = []
-    for _, s in rift_walkers.summoners.items():
+    for s in temp_summs:
         ret.append({'name': s.name,
                     'rank': s.rank,
                     'tier': s.tier,
@@ -106,7 +108,6 @@ if __name__ == '__main__':
                     'losses': s.losses,
                     'pDayWins': s.previous_day_wins,
                     'pDayLosses': s.previous_day_losses})
-    ret.sort(key=lambda s: s['leaguePoints'], reverse=True)
     with open(f'{os.path.dirname(os.path.abspath(__file__))}/summoners.json', 'w') as file:
         retries, max_retries = 0, 3
         
